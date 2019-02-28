@@ -50,7 +50,7 @@
                 layout: 'StandaloneLayout',
                 urls: [
                     {
-                        url: 'https://docs.bitwarden.com/api/specs/public/1.0.0/swagger.json',
+                        url: 'https://docs.bitwarden.com/api/specs/public/swagger.json',
                         name: 'Bitwarden Public API'
                     },
                 ],
@@ -68,8 +68,8 @@
             });
 
             ui.initOAuth({
-                clientId: 'account_type.id',
-                clientSecret: 'secret_key',
+                clientId: 'accountType.id',
+                clientSecret: 'secretKey',
                 scopeSeperator: ' ',
                 useBasicAuthenticationWithAccessCodeGrant: false,
             });
