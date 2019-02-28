@@ -1,0 +1,9 @@
+.vs
+node_modules
+npm-debug.log
+_site/
+.sass-cache/
+.jekyll-metadata
+*.bat
+*.tmp
+/lib

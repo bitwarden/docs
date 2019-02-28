@@ -1,0 +1,18 @@
+markdown: kramdown
+highlighter: none
+permalink: pretty
+encoding: utf-8
+port: 4011
+
+sass:
+  style: compressed
+
+exclude:
+  - node_modules
+  - package.json
+  - package-lock.json
+  - gulpfile.js
+  - README.md
+
+include: 
+  - ".nojekyll"
