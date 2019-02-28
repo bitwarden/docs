@@ -4,7 +4,7 @@
   "scripts": {
     "build": "jekyll build",
     "build:watch": "jekyll serve --watch --host=0.0.0.0",
-    "deploy": "gh-pages --dotfiles --dist _site"
+    "deploy": "npm run build && gh-pages --dotfiles --dist _site"
   },
   "devDependencies": {
     "gh-pages": "^1.2.0"
