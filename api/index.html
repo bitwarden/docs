@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Bitwarden API Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,300italic,400italic,600italic|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css">
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+
+    <script>
+        // Workaround for https://github.com/swagger-api/swagger-editor/issues/1371
+        if (window.navigator.userAgent.indexOf('Edge') > -1) {
+            window.fetch = undefined;
+        }
+    </script>
+    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"> </script>
+    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js"> </script>
+    <script>
+        window.onload = () => {
+            const ui = SwaggerUIBundle({
+                dom_id: '#swagger-ui',
+                presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+                layout: 'StandaloneLayout',
+                urls: [
+                    {
+                        url: 'https://docs.bitwarden.com/api/specs/public/1.0.0/swagger.json',
+                        name: 'Bitwarden Public API'
+                    },
+                ],
+                deepLinking: false,
+                displayOperationId: false,
+                defaultModelsExpandDepth: 1,
+                defaultModelExpandDepth: 1,
+                defaultModelRendering: 'example',
+                displayRequestDuration: false,
+                docExpansion: 'list',
+                showExtensions: false,
+                showCommonExtensions: false,
+                supportedSubmitMethods: ['get', 'put', 'post', 'delete'],
+                validatorUrl: null,
+            });
+
+            ui.initOAuth({
+                clientId: 'account_type.id',
+                clientSecret: 'secret_key',
+                scopeSeperator: ' ',
+                useBasicAuthenticationWithAccessCodeGrant: false,
+            });
+        }
+    </script>
+</body>
+
+</html>
