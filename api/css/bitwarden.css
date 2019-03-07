@@ -2,6 +2,7 @@ html {
     box-sizing: border-box;
     overflow: -moz-scrollbars-vertical;
     overflow-y: scroll;
+    font-size: 14px;
 }
 
 *,
@@ -25,4 +26,15 @@ body {
 
 .swagger-ui .topbar .topbar-wrapper .download-url-wrapper select {
     border: none;
+}
+
+.swagger-ui .model,
+.swagger-ui .model-title__text,
+.swagger-ui .model-title,
+.swagger-ui .opblock-description-wrapper,
+.swagger-ui .opblock-external-docs-wrapper,
+.swagger-ui .opblock-title_normal,
+.swagger-ui table thead tr td,
+.swagger-ui table thead tr th {
+    font-size: 14px;
 }
