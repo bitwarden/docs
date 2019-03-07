@@ -10,25 +10,9 @@
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,300italic,400italic,600italic|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css">
-    <style>
-        html {
-            box-sizing: border-box;
-            overflow: -moz-scrollbars-vertical;
-            overflow-y: scroll;
-        }
-
-        *,
-        *:before,
-        *:after {
-            box-sizing: inherit;
-        }
-
-        body {
-            margin: 0;
-            background: #fafafa;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.21.0/swagger-ui.css">
+    <link rel="stylesheet" type="text/css" href="./css/bitwarden.css">
 </head>
 
 <body>
@@ -40,8 +24,8 @@
             window.fetch = undefined;
         }
     </script>
-    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"> </script>
-    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.21.0/swagger-ui-bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.21.0/swagger-ui-standalone-preset.js"></script>
     <script>
         window.onload = () => {
             const ui = SwaggerUIBundle({
@@ -50,7 +34,7 @@
                 layout: 'StandaloneLayout',
                 urls: [
                     {
-                        url: 'https://docs.bitwarden.com/api/specs/public/swagger.json',
+                        url: './specs/public/swagger.json',
                         name: 'Bitwarden Public API'
                     },
                 ],

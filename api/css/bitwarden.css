@@ -1,0 +1,28 @@
+html {
+    box-sizing: border-box;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background: #fafafa;
+}
+
+.swagger-ui .topbar {
+    background-color: #3c8dbc;
+}
+
+.swagger-ui .topbar .topbar-wrapper a.link img {
+    display: none;
+}
+
+.swagger-ui .topbar .topbar-wrapper .download-url-wrapper select {
+    border: none;
+}

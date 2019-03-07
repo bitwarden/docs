@@ -1,0 +1,1205 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "latest",
+      "title": "Bitwarden Public API"
+    },
+    "paths": {
+      "/public/collections/{id}": {
+        "get": {
+          "tags": [
+            "Collections"
+          ],
+          "summary": "Retrieve a collection.",
+          "description": "Retrieves the details of an existing collection. You need only supply the unique collection identifier\r\nthat was returned upon collection creation.",
+          "operationId": "Get",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the collection to be retrieved.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/CollectionResponseModel"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Collections"
+          ],
+          "summary": "Update a collection.",
+          "description": "Updates the specified collection object. If a property is not provided,\r\nthe value of the existing property will be reset.",
+          "operationId": "Put",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the collection to be updated.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "name": "model",
+              "in": "body",
+              "description": "The request model.",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/CollectionUpdateRequestModel"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/CollectionResponseModel"
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponseModel"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Collections"
+          ],
+          "summary": "Delete a collection.",
+          "description": "Permanently deletes a collection. This cannot be undone.",
+          "operationId": "Delete",
+          "consumes": [],
+          "produces": [],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the collection to be deleted.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        }
+      },
+      "/public/collections": {
+        "get": {
+          "tags": [
+            "Collections"
+          ],
+          "summary": "List all collections.",
+          "description": "Returns a list of your organization's collections.\r\nCollection objects listed in this call do not include information about their associated groups.",
+          "operationId": "List",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/ListResponseModel[CollectionResponseModel]"
+              }
+            }
+          }
+        }
+      },
+      "/public/events": {
+        "get": {
+          "tags": [
+            "Events"
+          ],
+          "summary": "List all events.",
+          "description": "Returns a filtered list of your organization's event logs, paged by a continuation token.\r\nIf no filters are provided, it will return the last 30 days of event for the organization.",
+          "operationId": "List",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "start",
+              "in": "query",
+              "description": "The start date. Must be less than the end date.",
+              "required": false,
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "name": "end",
+              "in": "query",
+              "description": "The end date. Must be greater than the start date.",
+              "required": false,
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "name": "actingUserId",
+              "in": "query",
+              "description": "The unique identifier of the user that performed the event.",
+              "required": false,
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "name": "itemId",
+              "in": "query",
+              "description": "The unique identifier of the related item that the event describes.",
+              "required": false,
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "name": "continuationToken",
+              "in": "query",
+              "description": "A cursor for use in pagination.",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/ListResponseModel[EventResponseModel]"
+              }
+            }
+          }
+        }
+      },
+      "/public/groups/{id}": {
+        "get": {
+          "tags": [
+            "Groups"
+          ],
+          "summary": "Retrieve a group.",
+          "description": "Retrieves the details of an existing group. You need only supply the unique group identifier\r\nthat was returned upon group creation.",
+          "operationId": "Get",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the group to be retrieved.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/GroupResponseModel"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Groups"
+          ],
+          "summary": "Update a group.",
+          "description": "Updates the specified group object. If a property is not provided,\r\nthe value of the existing property will be reset.",
+          "operationId": "Put",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the group to be updated.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "name": "model",
+              "in": "body",
+              "description": "The request model.",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/GroupCreateUpdateRequestModel"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/GroupResponseModel"
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponseModel"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Groups"
+          ],
+          "summary": "Delete a group.",
+          "description": "Permanently deletes a group. This cannot be undone.",
+          "operationId": "Delete",
+          "consumes": [],
+          "produces": [],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the group to be deleted.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        }
+      },
+      "/public/groups": {
+        "get": {
+          "tags": [
+            "Groups"
+          ],
+          "summary": "List all groups.",
+          "description": "Returns a list of your organization's groups.\r\nGroup objects listed in this call do not include information about their associated collections.",
+          "operationId": "List",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/ListResponseModel[GroupResponseModel]"
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Groups"
+          ],
+          "summary": "Create a group.",
+          "description": "Creates a new group object.",
+          "operationId": "Post",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "model",
+              "in": "body",
+              "description": "The request model.",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/GroupCreateUpdateRequestModel"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/GroupResponseModel"
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponseModel"
+              }
+            }
+          }
+        }
+      },
+      "/public/members/{id}": {
+        "get": {
+          "tags": [
+            "Members"
+          ],
+          "summary": "Retrieve a member.",
+          "description": "Retrieves the details of an existing member of the organization. You need only supply the\r\nunique member identifier that was returned upon member creation.",
+          "operationId": "Get",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the member to be retrieved.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/MemberResponseModel"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Members"
+          ],
+          "summary": "Update a member.",
+          "description": "Updates the specified member object. If a property is not provided,\r\nthe value of the existing property will be reset.",
+          "operationId": "Put",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the member to be updated.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "name": "model",
+              "in": "body",
+              "description": "The request model.",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/MemberUpdateRequestModel"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/MemberResponseModel"
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponseModel"
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Members"
+          ],
+          "summary": "Delete a member.",
+          "description": "Permanently deletes a member from the organization. This cannot be undone.\r\nThe user account will still remain. The user is only removed from the organization.",
+          "operationId": "Delete",
+          "consumes": [],
+          "produces": [],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The identifier of the member to be deleted.",
+              "required": true,
+              "type": "string",
+              "format": "uuid"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        }
+      },
+      "/public/members": {
+        "get": {
+          "tags": [
+            "Members"
+          ],
+          "summary": "List all members.",
+          "description": "Returns a list of your organization's members.\r\nMember objects listed in this call do not include information about their associated collections.",
+          "operationId": "List",
+          "consumes": [],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/ListResponseModel[MemberResponseModel]"
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Members"
+          ],
+          "summary": "Create a member.",
+          "description": "Creates a new member object by inviting a user to the organization.",
+          "operationId": "Post",
+          "consumes": [
+            "application/json-patch+json",
+            "application/json",
+            "text/json",
+            "application/*+json"
+          ],
+          "produces": [
+            "text/plain",
+            "application/json",
+            "text/json"
+          ],
+          "parameters": [
+            {
+              "name": "model",
+              "in": "body",
+              "description": "The request model.",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/MemberCreateRequestModel"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/MemberResponseModel"
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponseModel"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "CollectionResponseModel": {
+        "description": "A collection.",
+        "required": [
+          "Object",
+          "Id"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "collection"
+          },
+          "Id": {
+            "format": "uuid",
+            "description": "The collection's unique identifier.",
+            "type": "string",
+            "example": "539a36c5-e0d2-4cf9-979e-51ecf5cf6593"
+          },
+          "Groups": {
+            "description": "The associated groups that this collection is assigned to.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsResponseModel"
+            }
+          }
+        }
+      },
+      "AssociationWithPermissionsResponseModel": {
+        "required": [
+          "Id",
+          "ReadOnly"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "format": "uuid",
+            "description": "The associated object's unique identifier.",
+            "type": "string",
+            "example": "bfbc8338-e329-4dc0-b0c9-317c2ebf1a09"
+          },
+          "ReadOnly": {
+            "description": "When true, the read only permission will not allow the user or group to make changes to items.",
+            "type": "boolean"
+          }
+        }
+      },
+      "CollectionUpdateRequestModel": {
+        "type": "object",
+        "properties": {
+          "Groups": {
+            "description": "The associated groups that this collection is assigned to.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsRequestModel"
+            }
+          }
+        }
+      },
+      "AssociationWithPermissionsRequestModel": {
+        "required": [
+          "Id",
+          "ReadOnly"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "format": "uuid",
+            "description": "The associated object's unique identifier.",
+            "type": "string",
+            "example": "bfbc8338-e329-4dc0-b0c9-317c2ebf1a09"
+          },
+          "ReadOnly": {
+            "description": "When true, the read only permission will not allow the user or group to make changes to items.",
+            "type": "boolean"
+          }
+        }
+      },
+      "ErrorResponseModel": {
+        "required": [
+          "Object",
+          "Message"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "error"
+          },
+          "Message": {
+            "description": "A human-readable message providing details about the error.",
+            "type": "string",
+            "example": "The request model is invalid."
+          },
+          "Errors": {
+            "description": "If multiple errors occurred, they are listed in dictionary. Errors related to a specific\r\nrequest parameter will include a dictionary key describing that parameter.",
+            "type": "object",
+            "additionalProperties": {
+              "uniqueItems": false,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ListResponseModel[CollectionResponseModel]": {
+        "required": [
+          "Object",
+          "Data"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "list"
+          },
+          "Data": {
+            "description": "An array containing the actual response elements, paginated by any request parameters.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/CollectionResponseModel"
+            }
+          },
+          "ContinuationToken": {
+            "description": "A cursor for use in pagination.",
+            "type": "string"
+          }
+        }
+      },
+      "ListResponseModel[EventResponseModel]": {
+        "required": [
+          "Object",
+          "Data"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "list"
+          },
+          "Data": {
+            "description": "An array containing the actual response elements, paginated by any request parameters.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/EventResponseModel"
+            }
+          },
+          "ContinuationToken": {
+            "description": "A cursor for use in pagination.",
+            "type": "string"
+          }
+        }
+      },
+      "EventResponseModel": {
+        "description": "An event log.",
+        "required": [
+          "Object",
+          "Type",
+          "Date"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "event"
+          },
+          "Type": {
+            "format": "int32",
+            "description": "The type of event.",
+            "enum": [
+              1000,
+              1001,
+              1002,
+              1003,
+              1004,
+              1005,
+              1006,
+              1100,
+              1101,
+              1102,
+              1103,
+              1104,
+              1105,
+              1106,
+              1300,
+              1301,
+              1302,
+              1400,
+              1401,
+              1402,
+              1500,
+              1501,
+              1502,
+              1503,
+              1504,
+              1600,
+              1601
+            ],
+            "type": "integer"
+          },
+          "ItemId": {
+            "format": "uuid",
+            "description": "The unique identifier of the related item that the event describes.",
+            "type": "string",
+            "example": "3767a302-8208-4dc6-b842-030428a1cfad"
+          },
+          "CollectionId": {
+            "format": "uuid",
+            "description": "The unique identifier of the related collection that the event describes.",
+            "type": "string",
+            "example": "bce212a4-25f3-4888-8a0a-4c5736d851e0"
+          },
+          "GroupId": {
+            "format": "uuid",
+            "description": "The unique identifier of the related group that the event describes.",
+            "type": "string",
+            "example": "f29a2515-91d2-4452-b49b-5e8040e6b0f4"
+          },
+          "MemberId": {
+            "format": "uuid",
+            "description": "The unique identifier of the related member that the event describes.",
+            "type": "string",
+            "example": "e68b8629-85eb-4929-92c0-b84464976ba4"
+          },
+          "ActingUserId": {
+            "format": "uuid",
+            "description": "The unique identifier of the user that performed the event.",
+            "type": "string",
+            "example": "a2549f79-a71f-4eb9-9234-eb7247333f94"
+          },
+          "Date": {
+            "format": "date-time",
+            "description": "The date/timestamp when the event occurred.",
+            "type": "string"
+          },
+          "Device": {
+            "format": "int32",
+            "description": "The type of device used by the acting user when the event occurred.",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "type": "integer"
+          },
+          "IpAddress": {
+            "description": "The IP address of the acting user.",
+            "type": "string",
+            "example": "172.16.254.1"
+          }
+        }
+      },
+      "GroupResponseModel": {
+        "description": "A user group.",
+        "required": [
+          "Object",
+          "Id",
+          "Name",
+          "AccessAll"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "group"
+          },
+          "Id": {
+            "format": "uuid",
+            "description": "The group's unique identifier.",
+            "type": "string",
+            "example": "539a36c5-e0d2-4cf9-979e-51ecf5cf6593"
+          },
+          "Collections": {
+            "description": "The associated collections that this group can access.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsResponseModel"
+            }
+          },
+          "Name": {
+            "description": "The name of the group.",
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "example": "Development Team"
+          },
+          "AccessAll": {
+            "description": "Determines if this group can access all collections within the organization, or only the associated\r\ncollections. If set to {true}, this option overrides any collection assignments.",
+            "type": "boolean"
+          },
+          "ExternalId": {
+            "description": "External identifier linking this group to another system, such as a user directory.",
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "example": "external_id_123456"
+          }
+        }
+      },
+      "GroupCreateUpdateRequestModel": {
+        "required": [
+          "Name",
+          "AccessAll"
+        ],
+        "type": "object",
+        "properties": {
+          "Collections": {
+            "description": "The associated collections that this group can access.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsRequestModel"
+            }
+          },
+          "Name": {
+            "description": "The name of the group.",
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "example": "Development Team"
+          },
+          "AccessAll": {
+            "description": "Determines if this group can access all collections within the organization, or only the associated\r\ncollections. If set to {true}, this option overrides any collection assignments.",
+            "type": "boolean"
+          },
+          "ExternalId": {
+            "description": "External identifier linking this group to another system, such as a user directory.",
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "example": "external_id_123456"
+          }
+        }
+      },
+      "ListResponseModel[GroupResponseModel]": {
+        "required": [
+          "Object",
+          "Data"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "list"
+          },
+          "Data": {
+            "description": "An array containing the actual response elements, paginated by any request parameters.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/GroupResponseModel"
+            }
+          },
+          "ContinuationToken": {
+            "description": "A cursor for use in pagination.",
+            "type": "string"
+          }
+        }
+      },
+      "MemberResponseModel": {
+        "description": "An organization member.",
+        "required": [
+          "Object",
+          "Id",
+          "Email",
+          "TwoFactorEnabled",
+          "Status",
+          "Type",
+          "AccessAll"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "member"
+          },
+          "Id": {
+            "format": "uuid",
+            "description": "The member's unique identifier.",
+            "type": "string",
+            "example": "539a36c5-e0d2-4cf9-979e-51ecf5cf6593"
+          },
+          "Name": {
+            "description": "The member's name, set from their user account profile.",
+            "type": "string",
+            "example": "John Smith"
+          },
+          "Email": {
+            "description": "The member's email address.",
+            "type": "string",
+            "example": "jsmith@company.com"
+          },
+          "TwoFactorEnabled": {
+            "description": "Returns {true} if the member has a two-step login method enabled on their user account.",
+            "type": "boolean"
+          },
+          "Status": {
+            "format": "int32",
+            "description": "The member's status within the organization. All created members start with a status of \"Invited\".\r\nOnce a member accept's their invitation to join the organization, their status changes to \"Accepted\".\r\nAccepted members are then \"Confirmed\" by an organization administrator. Once a member is \"Confirmed\",\r\ntheir status can no longer change.",
+            "enum": [
+              0,
+              1,
+              2
+            ],
+            "type": "integer"
+          },
+          "Collections": {
+            "description": "The associated collections that this member can access.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsResponseModel"
+            }
+          },
+          "Type": {
+            "format": "int32",
+            "description": "The member's type (or role) within the organization.",
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "integer"
+          },
+          "AccessAll": {
+            "description": "Determines if this member can access all collections within the organization, or only the associated\r\ncollections. If set to {true}, this option overrides any collection assignments.",
+            "type": "boolean"
+          },
+          "ExternalId": {
+            "description": "External identifier linking this member to another system, such as a user directory.",
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "example": "external_id_123456"
+          }
+        }
+      },
+      "MemberUpdateRequestModel": {
+        "required": [
+          "Type",
+          "AccessAll"
+        ],
+        "type": "object",
+        "properties": {
+          "Collections": {
+            "description": "The associated collections that this member can access.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsRequestModel"
+            }
+          },
+          "Type": {
+            "format": "int32",
+            "description": "The member's type (or role) within the organization.",
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "integer"
+          },
+          "AccessAll": {
+            "description": "Determines if this member can access all collections within the organization, or only the associated\r\ncollections. If set to {true}, this option overrides any collection assignments.",
+            "type": "boolean"
+          },
+          "ExternalId": {
+            "description": "External identifier linking this member to another system, such as a user directory.",
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "example": "external_id_123456"
+          }
+        }
+      },
+      "ListResponseModel[MemberResponseModel]": {
+        "required": [
+          "Object",
+          "Data"
+        ],
+        "type": "object",
+        "properties": {
+          "Object": {
+            "description": "String representing the object's type. Objects of the same type share the same properties.",
+            "type": "string",
+            "readOnly": true,
+            "example": "list"
+          },
+          "Data": {
+            "description": "An array containing the actual response elements, paginated by any request parameters.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/MemberResponseModel"
+            }
+          },
+          "ContinuationToken": {
+            "description": "A cursor for use in pagination.",
+            "type": "string"
+          }
+        }
+      },
+      "MemberCreateRequestModel": {
+        "required": [
+          "Email",
+          "Type",
+          "AccessAll"
+        ],
+        "type": "object",
+        "properties": {
+          "Email": {
+            "description": "The member's email address.",
+            "type": "string",
+            "example": "jsmith@company.com"
+          },
+          "Collections": {
+            "description": "The associated collections that this member can access.",
+            "uniqueItems": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AssociationWithPermissionsRequestModel"
+            }
+          },
+          "Type": {
+            "format": "int32",
+            "description": "The member's type (or role) within the organization.",
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "integer"
+          },
+          "AccessAll": {
+            "description": "Determines if this member can access all collections within the organization, or only the associated\r\ncollections. If set to {true}, this option overrides any collection assignments.",
+            "type": "boolean"
+          },
+          "ExternalId": {
+            "description": "External identifier linking this member to another system, such as a user directory.",
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "example": "external_id_123456"
+          }
+        }
+      }
+    },
+    "securityDefinitions": {
+      "OAuth2 Client Credentials": {
+        "flow": "application",
+        "tokenUrl": "https://identity.bitwarden.com/connect/token",
+        "scopes": {
+          "api.organization": "Organization APIs"
+        },
+        "type": "oauth2"
+      }
+    },
+    "security": [
+      {
+        "OAuth2 Client Credentials": [
+          "api.organization"
+        ]
+      }
+    ]
+  }
