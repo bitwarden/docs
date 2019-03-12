@@ -633,6 +633,13 @@
           "items": {
             "$ref": "#/definitions/AssociationWithPermissionsResponseModel"
           }
+        },
+        "externalId": {
+          "description": "External identifier for reference or linking this collection to another system.",
+          "maxLength": 300,
+          "minLength": 0,
+          "type": "string",
+          "example": "external_id_123456"
         }
       }
     },
@@ -665,6 +672,13 @@
           "items": {
             "$ref": "#/definitions/AssociationWithPermissionsRequestModel"
           }
+        },
+        "externalId": {
+          "description": "External identifier for reference or linking this collection to another system.",
+          "maxLength": 300,
+          "minLength": 0,
+          "type": "string",
+          "example": "external_id_123456"
         }
       }
     },
@@ -933,7 +947,7 @@
           "type": "boolean"
         },
         "externalId": {
-          "description": "External identifier linking this group to another system, such as a user directory.",
+          "description": "External identifier for reference or linking this group to another system, such as a user directory.",
           "maxLength": 300,
           "minLength": 0,
           "type": "string",
@@ -968,7 +982,7 @@
           "type": "boolean"
         },
         "externalId": {
-          "description": "External identifier linking this group to another system, such as a user directory.",
+          "description": "External identifier for reference or linking this group to another system, such as a user directory.",
           "maxLength": 300,
           "minLength": 0,
           "type": "string",
@@ -1076,7 +1090,7 @@
           "type": "boolean"
         },
         "externalId": {
-          "description": "External identifier linking this member to another system, such as a user directory.",
+          "description": "External identifier for reference or linking this member to another system, such as a user directory.",
           "maxLength": 300,
           "minLength": 0,
           "type": "string",
@@ -1115,7 +1129,7 @@
           "type": "boolean"
         },
         "externalId": {
-          "description": "External identifier linking this member to another system, such as a user directory.",
+          "description": "External identifier for reference or linking this member to another system, such as a user directory.",
           "maxLength": 300,
           "minLength": 0,
           "type": "string",
@@ -1187,7 +1201,7 @@
           "type": "boolean"
         },
         "externalId": {
-          "description": "External identifier linking this member to another system, such as a user directory.",
+          "description": "External identifier for reference or linking this member to another system, such as a user directory.",
           "maxLength": 300,
           "minLength": 0,
           "type": "string",
