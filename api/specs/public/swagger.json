@@ -346,6 +346,100 @@
         }
       }
     },
+    "/public/groups/{id}/member-ids": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Retrieve a groups's member ids",
+        "description": "Retrieves the unique identifiers for all members that are associated with this group. You need only\r\nsupply the unique group identifier that was returned upon group creation.",
+        "operationId": "GetMemberIds",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the group to be retrieved.",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Update a group's members.",
+        "description": "Updates the specified group's member associations.",
+        "operationId": "PutMemberIds",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the group to be updated.",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "model",
+            "in": "body",
+            "description": "The request model.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UpdateMemberIdsRequestModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseModel"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/public/groups": {
       "get": {
         "tags": [
@@ -528,6 +622,100 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/public/members/{id}/group-ids": {
+      "get": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Retrieve a member's group ids",
+        "description": "Retrieves the unique identifiers for all groups that are associated with this member. You need only\r\nsupply the unique member identifier that was returned upon member creation.",
+        "operationId": "GetGroupIds",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the member to be retrieved.",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Members"
+        ],
+        "summary": "Update a member's groups.",
+        "description": "Updates the specified member's group associations.",
+        "operationId": "PutGroupIds",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the member to be updated.",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "model",
+            "in": "body",
+            "description": "The request model.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UpdateGroupIdsRequestModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseModel"
+            }
           },
           "404": {
             "description": "Not Found"
@@ -990,6 +1178,20 @@
         }
       }
     },
+    "UpdateMemberIdsRequestModel": {
+      "type": "object",
+      "properties": {
+        "memberIds": {
+          "description": "The associated member ids that have access to this object.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          }
+        }
+      }
+    },
     "ListResponseModel[GroupResponseModel]": {
       "required": [
         "object",
@@ -1134,6 +1336,20 @@
           "minLength": 0,
           "type": "string",
           "example": "external_id_123456"
+        }
+      }
+    },
+    "UpdateGroupIdsRequestModel": {
+      "type": "object",
+      "properties": {
+        "groupIds": {
+          "description": "The associated group ids that this object can access.",
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          }
         }
       }
     },
