@@ -1,4 +1,4 @@
-[![appveyor build](https://ci.appveyor.com/api/projects/status/xmmrewrefxkq4xu7?svg=true)](https://ci.appveyor.com/project/bitwarden/docs)
+[![Build](https://github.com/bitwarden/docs/workflows/Build/badge.svg)](https://github.com/bitwarden/docs/actions?query=workflow%3ABuild)
 [![Join the chat at https://gitter.im/bitwarden/Lobby](https://badges.gitter.im/bitwarden/Lobby.svg)](https://gitter.im/bitwarden/Lobby)
 
 # Bitwarden Docs Site
