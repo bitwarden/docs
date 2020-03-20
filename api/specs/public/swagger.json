@@ -1821,7 +1821,8 @@
           "object",
           "status",
           "twoFactorEnabled",
-          "type"
+          "type",
+          "userId"
         ],
         "type": "object",
         "properties": {
@@ -1833,9 +1834,15 @@
           },
           "id": {
             "type": "string",
-            "description": "The member's unique identifier.",
+            "description": "The member's unique identifier within the organization.",
             "format": "uuid",
             "example": "539a36c5-e0d2-4cf9-979e-51ecf5cf6593"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The member's unique identifier across Bitwarden.",
+            "format": "uuid",
+            "example": "48b47ee1-493e-4c67-aef7-014996c40eca"
           },
           "name": {
             "type": "string",
