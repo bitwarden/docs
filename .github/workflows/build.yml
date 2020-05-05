@@ -1,6 +1,6 @@
 name: Build
 
-on: [push, pull_request]
+on: push
 
 jobs:
   build:
@@ -21,23 +21,12 @@ jobs:
       - name: Set up Jekyll
         run: gem install bundler jekyll
 
-      - name: Set up git credentials
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: |
-          git config --global credential.helper store
-          echo "https://${ACCESS_TOKEN}:x-oauth-basic@github.com" >> ~/.git-credentials
-          git config --global user.email "ci@bitwarden.com"
-          git config --global user.name "Bitwarden CI"
-
       - name: Print environment
         run: |
           node --version
           npm --version
           ruby --version
           jekyll --version
-          git --version
 
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -46,9 +35,22 @@ jobs:
         run: npm install
 
       - name: Build site
-        if: github.event_name != 'push' || (github.event_name == 'push' && github.ref != 'refs/heads/master')
-        run: npm run build
+        if: github.ref != 'refs/heads/master'
+        run: npm run build:prod
 
-      - name: Build site and deploy to gh-pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npm run deploy
+      - name: Build site for S3
+        if: github.ref == 'refs/heads/master'
+        run: npm run build:prod:sub
+
+      - name: Deploy to S3
+        if: github.ref == 'refs/heads/master'
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1'
+          SOURCE_DIR: '_site/api'
+          DEST_DIR: 'help/api'

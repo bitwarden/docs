@@ -3,7 +3,7 @@
 
 # Bitwarden Docs Site
 
-The Bitwarden docs site project is written using Jekyll, which is hosted/deployed to a GitHub pages branch ([https://docs.bitwarden.com/](https://docs.bitwarden.com/)).
+The Bitwarden docs site project is written using Jekyll.
 
 # Build/Run
 

@@ -4,9 +4,10 @@
   "scripts": {
     "build": "jekyll build",
     "build:watch": "jekyll serve --watch --host=0.0.0.0",
-    "deploy": "npm run build && gh-pages --dotfiles --dist _site"
+    "build:prod": "cross-env JEKYLL_ENV=production jekyll build",
+    "build:prod:sub": "cross-env JEKYLL_ENV=production jekyll build --config _config.yml,_config-sub.yml"
   },
   "devDependencies": {
-    "gh-pages": "^1.2.0"
+    "cross-env": "^5.2.0"
   }
 }
