@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "api.bitwarden.com"
+      "url": "https://api.bitwarden.com"
     }
   ],
   "paths": {
@@ -1139,6 +1139,82 @@
         }
       }
     },
+    "/public/organization/import": {
+      "post": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Import members and groups.",
+        "description": "Import members and groups from an external system.",
+        "requestBody": {
+          "description": "The request model.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationImportRequestModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationImportRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationImportRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizationImportRequestModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/public/policies/{type}": {
       "get": {
         "tags": [
@@ -1501,6 +1577,8 @@
           1112,
           1113,
           1114,
+          1115,
+          1116,
           1300,
           1301,
           1302,
@@ -2021,6 +2099,96 @@
             "description": "External identifier for reference or linking this member to another system, such as a user directory.",
             "nullable": true,
             "example": "external_id_123456"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganizationImportGroupRequestModel": {
+        "required": [
+          "externalId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "The name of the group.",
+            "example": "Development Team"
+          },
+          "externalId": {
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "description": "External identifier for reference or linking this group to another system, such as a user directory.",
+            "example": "external_id_123456"
+          },
+          "memberExternalIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The associated external ids for members in this group.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganizationImportMemberRequestModel": {
+        "required": [
+          "externalId"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "The member's email address. Required for non-deleted users.",
+            "format": "email",
+            "nullable": true,
+            "example": "jsmith@example.com"
+          },
+          "externalId": {
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "description": "External identifier for reference or linking this member to another system, such as a user directory.",
+            "example": "external_id_123456"
+          },
+          "deleted": {
+            "type": "boolean",
+            "description": "Determines if this member should be removed from the organization during import."
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrganizationImportRequestModel": {
+        "required": [
+          "overwriteExisting"
+        ],
+        "type": "object",
+        "properties": {
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrganizationImportGroupRequestModel"
+            },
+            "description": "Groups to import.",
+            "nullable": true
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrganizationImportMemberRequestModel"
+            },
+            "description": "Members to import.",
+            "nullable": true
+          },
+          "overwriteExisting": {
+            "type": "boolean",
+            "description": "Determines if the data in this request should overwrite or append to the existing organization data."
           }
         },
         "additionalProperties": false
